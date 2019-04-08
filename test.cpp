@@ -55,7 +55,6 @@ public:
     return node;
   }
   void insert(int key){
-    cout<<"Key: "<<key<<endl;
     root = Insert(root, key);
     cout<<key<<" has been added"<<endl;
   }
