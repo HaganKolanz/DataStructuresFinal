@@ -32,7 +32,9 @@ void addFile(PriorityQueue &PQ){
             }
             else{
                 Time = stoi(line);
+                cout<<title<<endl;
                 PQ.enqueue(title, upvote, Time, url);
+                cout<<"fuck"<<endl;
                 counter = 0;
             }
         }
@@ -40,19 +42,27 @@ void addFile(PriorityQueue &PQ){
 }
 int main(){
     PriorityQueue PQ;//open queue
+    cout<<"here"<<endl;
     addFile(PQ);
     ofstream file;
+    cout<<"here1"<<endl;
     file.open("memes.html");
     if(file.is_open()){
+        cout<<"here2"<<endl;
         file << "<!DOCTYPE html>\n <html>\n <body>\n";
+        cout<<"here3"<<endl;
         while(!PQ.isEmpty()){
-
-            meme *p = PQ.peek();
-            file << "<h2>" << p->Title << "</h2>\n";
-            file << "<img src=\"" << p->URL << "\" alt=\"MEME\">\n";
+            cout<<"here4"<<endl;
+            meme p = PQ.peek();
+            cout<<p.Title<<endl;
+            file << "<h2>" << p.Title << "</h2>\n";
+            cout<<p.Title<<endl;
+            file << "<img src=\"" << p.URL << "\" alt=\"MEME\">\n";
+            cout<<p.URL<<endl;
             PQ.dequeue();
+            cout<<"here5"<<endl;
         }
-        file << "</body>\n </html>"; 
+        file << "</body>\n </html>";
     }
     else{
         cout << "could not open file" << endl;
