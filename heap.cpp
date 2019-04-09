@@ -3,7 +3,7 @@
 using namespace std;
 
 PriorityQueue::PriorityQueue(){
-    currentQueueSize = 0;
+    currentQueueSize = 0;//start with no memes
 }
 PriorityQueue::~PriorityQueue(){
 }
@@ -21,6 +21,7 @@ void PriorityQueue::repairDownward(int nodeIndex){
     int l = left(nodeIndex);
     int r = right(nodeIndex);//store the variables
     int biggest = nodeIndex;
+
     if(l < currentQueueSize && (priorityQueue[l])->UpVotes > (priorityQueue[nodeIndex])->UpVotes)
         biggest = l;//left one has bigger group size
     if(l < currentQueueSize && (priorityQueue[l])->UpVotes == (priorityQueue[nodeIndex])->UpVotes
@@ -31,6 +32,7 @@ void PriorityQueue::repairDownward(int nodeIndex){
     if(r < currentQueueSize && (priorityQueue[r])->UpVotes == (priorityQueue[biggest])->UpVotes 
     &&(priorityQueue[r])->Time > (priorityQueue[biggest])->Time)
         biggest = r;//size equal but the right has bigger time (more recent)
+
     if(biggest != nodeIndex){//things were swapped
         swap(&(*priorityQueue[nodeIndex]), &(*priorityQueue[biggest]));
         repairDownward(biggest);//recursive call
@@ -42,13 +44,14 @@ void PriorityQueue::repairUpward(int nodeIndex){
     int sizeI = priorityQueue[nodeIndex]->UpVotes;
     int CsizeP = priorityQueue[parent(nodeIndex)]->Time;
     int CsizeI = priorityQueue[nodeIndex]->Time;//store the variables we are going to compare
+
     bool stop = false;//to stop the loop while it's no longer needed
     while(nodeIndex != 0 && !stop){
         if(sizeP < sizeI){
             swap(&(*priorityQueue[nodeIndex]), &(*priorityQueue[parent(nodeIndex)]));
-            nodeIndex = parent(nodeIndex);//if the group size is less swap it
+            nodeIndex = parent(nodeIndex);//if the parent has a fewer upvotes
         }
-        else if(sizeP == sizeI){
+        else if(sizeP == sizeI){//same upvotes
             while(nodeIndex != 0 && !stop){
                 if(CsizeP < CsizeI && sizeP == sizeI){
                     swap(&(*priorityQueue[nodeIndex]), &(*priorityQueue[parent(nodeIndex)]));
@@ -100,7 +103,7 @@ void PriorityQueue::dequeue(){
             priorityQueue[0] = priorityQueue[currentQueueSize - 1];//put the last one first
             priorityQueue.pop_back();
             currentQueueSize--;//decrease the size
-            repairDownward(0);//re order the array
+            repairDownward(0);//re order the vector
         }
     
     }
